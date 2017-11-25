@@ -75,18 +75,16 @@ class CachedKafkaConsumer[K, V] private(
       s"Failed to get records for $groupId $topic $partition $offset after polling for $timeout")
     var record = buffer.next()
 
-    if (record.offset != offset) {
+    if (record.offset < offset) {
       logInfo(s"Buffer miss for $groupId $topic $partition $offset")
       seek(offset)
       poll(timeout)
       assert(buffer.hasNext(),
         s"Failed to get records for $groupId $topic $partition $offset after polling for $timeout")
       record = buffer.next()
-      assert(record.offset == offset,
-        s"Got wrong record for $groupId $topic $partition even after seeking to offset $offset")
     }
 
-    nextOffset = offset + 1
+    nextOffset = record.offset + 1
     record
   }
 

@@ -221,7 +221,7 @@ private[spark] class KafkaRDD[K, V](
     override def next(): ConsumerRecord[K, V] = {
       assert(hasNext(), "Can't call getNext() once untilOffset has been reached")
       val r = consumer.get(requestOffset, pollTimeout)
-      requestOffset += 1
+      requestOffset = r.offset() + 1
       r
     }
   }
