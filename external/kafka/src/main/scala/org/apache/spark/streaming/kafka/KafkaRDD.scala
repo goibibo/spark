@@ -208,13 +208,13 @@ class KafkaRDD[
         iter = fetchBatch
       }
       if (!iter.hasNext) {
-        assert(requestOffset == part.untilOffset, errRanOutBeforeEnd(part))
+        //assert(requestOffset == part.untilOffset, errRanOutBeforeEnd(part))
         finished = true
         null.asInstanceOf[R]
       } else {
         val item = iter.next()
         if (item.offset >= part.untilOffset) {
-          assert(item.offset == part.untilOffset, errOvershotEnd(item.offset, part))
+          //assert(item.offset == part.untilOffset, errOvershotEnd(item.offset, part))
           finished = true
           null.asInstanceOf[R]
         } else {
