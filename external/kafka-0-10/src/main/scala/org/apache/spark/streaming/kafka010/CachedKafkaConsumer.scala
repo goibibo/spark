@@ -82,8 +82,6 @@ class CachedKafkaConsumer[K, V] private(
       assert(buffer.hasNext(),
         s"Failed to get records for $groupId $topic $partition $offset after polling for $timeout")
       record = buffer.next()
-      //assert(record.offset == offset,
-      //  s"Got wrong record for $groupId $topic $partition even after seeking to offset $offset")
     }
 
     nextOffset = record.offset + 1
